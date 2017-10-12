@@ -1,23 +1,40 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import { DrawerNavigator } from 'react-navigation';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    );
-  }
-}
+import Search from './pages/Search';
+import Bookmark from './pages/Bookmark';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+StatusBar.setBarStyle('light-content');
+
+const App = DrawerNavigator({
+  Search: { screen: Search},
+  Bookmark: { screen: Bookmark }
 });
+
+
+export default App;
+
+
+
+
+
+
+// export default class App extends React.Component {
+//   render() {
+//     return (
+//       <View style={styles.container}>
+//         <Text>Hello World! React Native!</Text>
+//       </View>
+//     );
+//   }
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });
