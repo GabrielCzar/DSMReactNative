@@ -27,8 +27,10 @@ export default class Movie extends React.Component {
 
                     <TouchableOpacity   
                         style={styles.button} 
-                        onPress={() => {}} >
-                        <Text style={styles.buttonText} >Adicionar aos favoritos</Text>
+                        onPress={this.props.onFavoritePress} >
+                        <Text style={styles.buttonText} >
+                            { this.props.favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos' } 
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>

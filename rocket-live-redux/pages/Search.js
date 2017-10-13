@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TextInput, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, TextInput, ActivityIndicator, AsyncStorage } from 'react-native';
 
 import Movie from '../components/Movie';
 
@@ -8,15 +8,26 @@ export default class Search extends React.Component {
         search: '',
         movie: null,
         loading: false,
+        bookmark: [],
     };
 
+    // Get Data from DB of the APP
+    // Native method
+    componentWillMount() {
+        AsyncStorage.getItem('@Workshop:bookmark')
+            .then(result => {
+                let bookmark = result ? JSON.parse(result) : [];
+                this.setState({ bookmark });
+            });
+    }
+
+    // Search the movie on API
     fetchMovies = async (search) => {
         if (search.length > 0) {
             //request
             this.setState({ loading: true });
             try {
-                const response = await
-                    fetch(`http://netflixroulette.net/api/api.php?title=${search}`);
+                const response = await fetch(`http://netflixroulette.net/api/api.php?title=${search}`);
                 
                 if (!response.ok) throw {};
 
@@ -31,6 +42,28 @@ export default class Search extends React.Component {
         }
     };
 
+    // Add movie to Favorites
+    handleFavorite = () => {
+        let bookmark = this.state.bookmark;
+
+        if (this.isFavorite()) 
+            bookmark = bookmark.filter(bookmarkMovie => 
+                bookmarkMovie.show_id !== this.state.movie.show_id);
+        else 
+            bookmark.push(this.state.movie);
+        
+        this.setState({ bookmark });
+
+        AsyncStorage.setItem('@Workshop:bookmark', JSON.stringify(bookmark));
+    };
+
+    isFavorite = () => {
+        return this.state.bookmark.filter(bookmarkMovie => 
+            bookmarkMovie.show_id === this.state.movie.show_id
+        ).length > 0;
+    };
+
+    // Render View
     render () {
         return (
             <View style={styles.container}>
@@ -44,12 +77,16 @@ export default class Search extends React.Component {
                 } 
 
                 { this.state.movie && 
-                    <Movie movie={this.state.movie} />
+                    <Movie 
+                        movie={this.state.movie} 
+                        onFavoritePress={this.handleFavorite()}
+                        favorite={this.isFavorite()}
+                    />
                 }
 
             </View>
         );
-    }
+    };
 }
 
 const styles = StyleSheet.create({

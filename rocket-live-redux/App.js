@@ -12,12 +12,7 @@ const App = DrawerNavigator({
   Bookmark: { screen: Bookmark }
 });
 
-
 export default App;
-
-
-
-
 
 
 // export default class App extends React.Component {
