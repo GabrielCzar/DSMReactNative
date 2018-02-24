@@ -1,23 +1,31 @@
+'use strict';
+
 import React, { PureComponent } from 'react'
 import { StyleSheet, Text, View, Platform } from 'react-native';
 import TimerMixin from 'react-timer-mixin';
 import SplashScreenPlugin from 'react-native-splash-screen';
 
+// Na teoria, seria a page inicial
 export default class SplashScreen extends PureComponent {
     constructor(props) {
         super(props);
     }
     
     componentWillMount() {
-      if (Platform.OS === 'android') {
-        SplashScreenPlugin.hide();
-        TimerMixin.setTimeout(() => {
-            console.log('Init Splash Screen');
-        }, Platform.OS === 'android' ? 5000 : 10500);
-      }
+        if (Platform.OS === 'android') {
+            TimerMixin.setTimeout(
+                () => {
+                    console.log('SPLASH SCREEN');
+                }, 5000);
+        }
+	// Utilizar para verificar algum token ou action inicial
     }
-      
-    render () {
+
+    componentDidMount() {
+        SplashScreenPlugin.hide();
+    }
+
+    render () { 
         return (
             <View style={styles.container}>
                 <View style={styles.titleWrapper}>
