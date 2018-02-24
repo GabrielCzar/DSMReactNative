@@ -1,6 +1,9 @@
 # Execute projects
 
-## Instalar dependencias e iniciar servidor
+## Instalar dependencias 
+npm i 
+
+## Iniciar server
 react-native start
 
 ## Criar pastas com projeto android e ios
