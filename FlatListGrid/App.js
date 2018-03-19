@@ -1,58 +1,43 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+import React from "react";
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
+class App extends React.Component {
+  state = {
+    data: [
+      { id: "00", name: "Relâmpago McQueen" },
+      { id: "01", name: "Agente Tom Mate" },
+      { id: "02", name: "Doc Hudson" },
+      { id: "03", name: "Cruz Ramirez" }
+    ]
+  };
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
+      <SafeAreaView>
+        <FlatList
+          data={this.state.data}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => {
+            return (
+              <View style={styles.item}>
+                <Text style={styles.text}>{item.name}</Text>
+              </View>
+            );
+          }}
+        />
+      </SafeAreaView>
     );
   }
 }
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+  item: {
+    alignItems: "center",
+    backgroundColor: "#dcda48",
+    flexGrow: 1,
+    margin: 4,
+    padding: 20
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  text: {
+    color: "#333333"
+  }
 });
+export default App;
