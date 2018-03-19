@@ -10,13 +10,19 @@ class App extends React.Component {
       { id: "03", name: "Cruz Ramirez" }
     ]
   };
+
   render() {
+    const columns = 3;
     return (
       <SafeAreaView>
         <FlatList
-          data={this.state.data}
+          data={createRows(this.state.data, columns)}
           keyExtractor={item => item.id}
+          numColumns={columns}
           renderItem={({ item }) => {
+            if (item.empty) {
+              return <View style={[styles.item, styles.itemEmpty]} />;
+            }
             return (
               <View style={styles.item}>
                 <Text style={styles.text}>{item.name}</Text>
@@ -28,16 +34,35 @@ class App extends React.Component {
     );
   }
 }
+
+createRows(data, columns) {
+  const rows = Math.floor(data.length / columns); // [A]
+  let lastRowElements = data.length - rows * columns; // [B]
+  while (lastRowElements !== columns) { // [C]
+    data.push({ // [D]
+      id: `empty-${lastRowElements}`,
+      name: `empty-${lastRowElements}`,
+      empty: true
+    });
+    lastRowElements += 1; // [E]
+  }
+  return data; // [F]
+}
+
 const styles = StyleSheet.create({
   item: {
     alignItems: "center",
     backgroundColor: "#dcda48",
     flexGrow: 1,
+    flexBasis: 0,
     margin: 4,
     padding: 20
   },
   text: {
     color: "#333333"
-  }
+  },
+  itemEmpty: {
+    backgroundColor: "transparent"
+  },
 });
 export default App;
